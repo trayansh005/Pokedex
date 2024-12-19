@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -13,6 +13,8 @@ import PokemonLogo from "./assets/pokemon.svg";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import PokeList from "./components/PokeList";
+import PokeCard from "./components/PokeCard";
+import Grid from "@mui/material/Grid2";
 
 const MaterialUISwitch = styled(Switch)(() => ({
   width: 62,
@@ -44,6 +46,59 @@ const MaterialUISwitch = styled(Switch)(() => ({
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const [pokemon, setPokemon] = useState({});
+
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      try {
+        // Fetch the main Pokémon details
+        const response = await fetch(
+          "https://pokeapi.co/api/v2/pokemon/pikachu"
+        );
+        const data = await response.json();
+
+        // Fetch additional details from the species URL
+        const speciesResponse = await fetch(data.species.url);
+        const speciesData = await speciesResponse.json();
+
+        // Extract the description from flavor_text_entries
+        const description = speciesData.flavor_text_entries.find(
+          (entry) => entry.language.name === "en" // Ensure the description is in English
+        )?.flavor_text;
+
+        const weaknessResponse = await fetch(data.types[0].type.url);
+        const weaknessData = await weaknessResponse.json();
+
+        const weakness = weaknessData.damage_relations.double_damage_from.map(
+          (name) => name.name
+        );
+
+        // Combine details
+        const pokemonDetails = {
+          name: data.name,
+          code: data.id,
+          height: data.height,
+          weight: data.weight,
+          abilities: data.abilities.map((ability) => ability.ability.name),
+          moves: data.moves.map((move) => move.move.name),
+          weaknesses: weakness,
+          types: data.types.map((type) => type.type.name),
+          image: data.sprites.other.dream_world.front_default,
+          description: description || "No description available",
+          stats: data.stats.map((stat) => ({
+            name: stat.stat.name,
+            value: stat.base_stat,
+          })),
+        };
+
+        setPokemon(pokemonDetails); // Assuming `setPokemon` updates state or DOM
+      } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+      }
+    };
+
+    fetchPokemon();
+  }, []);
 
   const theme = createTheme({
     palette: {
@@ -58,6 +113,7 @@ function App() {
   const handleToggle = () => {
     setDarkMode((prevMode) => !prevMode);
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,10 +155,17 @@ function App() {
               }
             />
           </Toolbar>
-          <Box sx={{ backgroundColor: theme.palette.background.default }}>
-            <PokeList />
-          </Box>
         </AppBar>
+
+        <Grid container spacing={2} sx={{ p: 3, marginTop: "4rem" }}>
+          <Grid size={7}>
+            <h1>PokeDex</h1>
+          </Grid>
+          <PokeCard pokemonData={pokemon} />
+        </Grid>
+        <Box sx={{ backgroundColor: theme.palette.background.default }}>
+          <PokeList />
+        </Box>
       </Container>
     </ThemeProvider>
   );
