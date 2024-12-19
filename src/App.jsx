@@ -47,7 +47,7 @@ const MaterialUISwitch = styled(Switch)(() => ({
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [pokemon, setPokemon] = useState("pikachu");
+  const [pokemon, setPokemon] = useState({});
 
   useEffect(() => {
     const fetchPokemon = async () => {

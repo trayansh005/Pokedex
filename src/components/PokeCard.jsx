@@ -9,9 +9,12 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
+import useTypeColor from "../hooks/useTypeColor";
 
 const PokeCard = ({ pokemonData }) => {
   const [tab, setTab] = useState(0);
+  const typeColor = useTypeColor(pokemonData?.types[0]);
+
   if (!pokemonData || !pokemonData.name) {
     return <div>Loading Pokémon data...</div>;
   }
@@ -30,7 +33,7 @@ const PokeCard = ({ pokemonData }) => {
       <Box
         sx={{
           position: "relative",
-          backgroundColor: "#4A90E2",
+          backgroundColor: typeColor,
           px: 3,
           py: 6,
           borderTopLeftRadius: 24,
@@ -48,7 +51,10 @@ const PokeCard = ({ pokemonData }) => {
               <Chip
                 key={index}
                 label={type.charAt(0).toUpperCase() + type.slice(1)}
-                sx={{ backgroundColor: "#6BB1F1", color: "white" }}
+                sx={{
+                  backgroundColor: "hsla(0, 0%, 100%, .2)",
+                  color: "white",
+                }}
               />
             ))}
           </div>

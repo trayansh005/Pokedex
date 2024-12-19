@@ -7,7 +7,6 @@ const PokeTiles = ({ pokemonData }) => {
   const { pokemon, setPokemon } = useContext(PokemonContext);
 
   const handlePokemonChange = () => {
-    console.log(pokemonData.name);
     setPokemon(pokemonData.name);
   };
 
