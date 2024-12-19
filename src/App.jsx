@@ -15,6 +15,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import PokeList from "./components/PokeList";
 import PokeCard from "./components/PokeCard";
 import Grid from "@mui/material/Grid2";
+import { PokemonContext } from "./providers/PokemonContext";
 
 const MaterialUISwitch = styled(Switch)(() => ({
   width: 62,
@@ -46,14 +47,14 @@ const MaterialUISwitch = styled(Switch)(() => ({
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [pokemon, setPokemon] = useState({});
+  const [pokemon, setPokemon] = useState("pikachu");
 
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
         // Fetch the main Pokémon details
         const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon/pikachu"
+          `https://pokeapi.co/api/v2/pokemon/${pokemon}`
         );
         const data = await response.json();
 
@@ -98,7 +99,7 @@ function App() {
     };
 
     fetchPokemon();
-  }, []);
+  }, [pokemon]);
 
   const theme = createTheme({
     palette: {
@@ -114,60 +115,64 @@ function App() {
     setDarkMode((prevMode) => !prevMode);
   };
 
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container
-        maxWidth={false}
-        disableGutters
-        sx={{
-          px: { xs: 2, sm: 4, md: 8 },
-          py: { xs: 2, sm: 3, md: 4 },
-          height: "100vh",
-          backgroundColor: theme.palette.background.default,
-        }}
-      >
-        <AppBar position="static" elevation={0}>
-          <Toolbar
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              backgroundColor: theme.palette.background.default,
-            }}
-          >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ color: theme.palette.text.secondary }}
+    <PokemonContext.Provider value={{ pokemon, setPokemon }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container
+          maxWidth={false}
+          disableGutters
+          sx={{
+            px: { xs: 2, sm: 4, md: 8 },
+            py: { xs: 2, sm: 3, md: 4 },
+            height: "100vh",
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          <AppBar position="static" elevation={0}>
+            <Toolbar
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                backgroundColor: theme.palette.background.default,
+              }}
             >
-              News
-            </Typography>
-            <img
-              src={PokemonLogo}
-              alt="Pokemon Logo"
-              style={{ width: "8rem" }}
-            />
-            <FormControlLabel
-              control={
-                <MaterialUISwitch checked={darkMode} onChange={handleToggle} />
-              }
-            />
-          </Toolbar>
-        </AppBar>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                News
+              </Typography>
+              <img
+                src={PokemonLogo}
+                alt="Pokemon Logo"
+                style={{ width: "8rem" }}
+              />
+              <FormControlLabel
+                control={
+                  <MaterialUISwitch
+                    checked={darkMode}
+                    onChange={handleToggle}
+                  />
+                }
+              />
+            </Toolbar>
+          </AppBar>
 
-        <Grid container spacing={2} sx={{ p: 3, marginTop: "4rem" }}>
-          <Grid size={7}>
-            <h1>PokeDex</h1>
+          <Grid container spacing={2} sx={{ p: 3, marginTop: "4rem" }}>
+            <Grid size={7}>
+              <h1>PokeDex</h1>
+            </Grid>
+            <PokeCard pokemonData={pokemon} />
           </Grid>
-          <PokeCard pokemonData={pokemon} />
-        </Grid>
-        <Box sx={{ backgroundColor: theme.palette.background.default }}>
-          <PokeList />
-        </Box>
-      </Container>
-    </ThemeProvider>
+          <Box sx={{ backgroundColor: theme.palette.background.default }}>
+            <PokeList />
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </PokemonContext.Provider>
   );
 }
 

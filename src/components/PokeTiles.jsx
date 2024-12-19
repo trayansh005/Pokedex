@@ -1,9 +1,14 @@
 import { Box, Chip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useContext } from "react";
+import { PokemonContext } from "../providers/PokemonContext";
 
-const PokeTiles = ({ pokemon, setPokemon }) => {
+const PokeTiles = ({ pokemonData }) => {
+  const { pokemon, setPokemon } = useContext(PokemonContext);
+
   const handlePokemonChange = () => {
-    console.log(pokemon.name);
+    console.log(pokemonData.name);
+    setPokemon(pokemonData.name);
   };
 
   return (
@@ -26,10 +31,11 @@ const PokeTiles = ({ pokemon, setPokemon }) => {
         >
           <div>
             <Typography variant="h5">
-              {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+              {pokemonData.name.charAt(0).toUpperCase() +
+                pokemonData.name.slice(1)}
             </Typography>
             <div style={{ marginTop: "12px", display: "flex", gap: "8px" }}>
-              {pokemon.types.map((type, index) => (
+              {pokemonData.types.map((type, index) => (
                 <Chip
                   key={index}
                   label={type.charAt(0).toUpperCase() + type.slice(1)}
@@ -40,8 +46,8 @@ const PokeTiles = ({ pokemon, setPokemon }) => {
           </div>
 
           <img
-            src={pokemon.image}
-            alt={pokemon.name}
+            src={pokemonData.image}
+            alt={pokemonData.name}
             style={{ width: "6rem", height: "7rem" }}
           />
         </Box>

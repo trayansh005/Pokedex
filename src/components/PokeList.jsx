@@ -42,7 +42,7 @@ const PokeList = () => {
       >
         <Grid container spacing={2} columns={{ xs: 2, sm: 4, md: 8 }}>
           {pokemons.map((pokemon, index) => (
-            <PokeTiles pokemon={pokemon} key={index} />
+            <PokeTiles pokemonData={pokemon} key={index} />
           ))}
         </Grid>
       </Box>
