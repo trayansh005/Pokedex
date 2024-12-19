@@ -13,7 +13,7 @@ import useTypeColor from "../hooks/useTypeColor";
 
 const PokeCard = ({ pokemonData }) => {
   const [tab, setTab] = useState(0);
-  const typeColor = useTypeColor(pokemonData?.types[0]);
+  const typeColor = useTypeColor(pokemonData?.types?.[0] || "#000000");
 
   if (!pokemonData || !pokemonData.name) {
     return <div>Loading Pokémon data...</div>;
