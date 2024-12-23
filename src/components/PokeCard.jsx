@@ -212,7 +212,7 @@ const PokeCard = () => {
           sx={{
             position: "absolute",
             top: "15px",
-            right: "50px",
+            right: "25px",
             transform: "translateY(-50%)",
           }}
         >
