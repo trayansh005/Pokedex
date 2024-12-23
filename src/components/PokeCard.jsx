@@ -7,12 +7,15 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useTypeColor from "../hooks/useTypeColor";
+import { PokemonContext } from "../providers/PokemonContext";
 
-const PokeCard = ({ pokemonData }) => {
+const PokeCard = () => {
+  const { pokemon, pokeCardRef } = useContext(PokemonContext);
+
   const [tab, setTab] = useState(0);
-  const typeColor = useTypeColor(pokemonData?.types?.[0] || "#000000");
+  const typeColor = useTypeColor(pokemon?.types?.[0] || "#000000");
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -23,7 +26,7 @@ const PokeCard = ({ pokemonData }) => {
       return (
         <>
           <Typography sx={{ marginBottom: 2 }}>
-            {pokemonData?.description || "Description not available"}
+            {pokemon?.description || "Description not available"}
           </Typography>
 
           <Box
@@ -39,10 +42,10 @@ const PokeCard = ({ pokemonData }) => {
             {[
               {
                 label: "Code",
-                value: formatNumber(pokemonData?.code || "000"),
+                value: formatNumber(pokemon?.code || "000"),
               },
-              { label: "Height", value: pokemonData?.height || "N/A" },
-              { label: "Weight", value: pokemonData?.weight || "N/A" },
+              { label: "Height", value: pokemon?.height || "N/A" },
+              { label: "Weight", value: pokemon?.weight || "N/A" },
             ].map((item, index) => (
               <div key={index}>
                 <Typography variant="caption" color="#A9ACAE">
@@ -63,8 +66,8 @@ const PokeCard = ({ pokemonData }) => {
               flexWrap: "wrap",
             }}
           >
-            {pokemonData?.abilities?.length > 0 ? (
-              pokemonData?.abilities.map((ability, index) => (
+            {pokemon?.abilities?.length > 0 ? (
+              pokemon?.abilities.map((ability, index) => (
                 <Chip
                   key={index}
                   label={capitalize(ability)}
@@ -81,8 +84,8 @@ const PokeCard = ({ pokemonData }) => {
 
           <Typography variant="h6">Weaknesses</Typography>
           <Box sx={{ display: "flex", gap: 1, marginTop: 1 }}>
-            {pokemonData?.weaknesses?.length > 0 ? (
-              pokemonData?.weaknesses.map((weakness, index) => (
+            {pokemon?.weaknesses?.length > 0 ? (
+              pokemon?.weaknesses.map((weakness, index) => (
                 <Chip
                   key={index}
                   label={capitalize(weakness)}
@@ -104,8 +107,8 @@ const PokeCard = ({ pokemonData }) => {
     if (tab === 1) {
       return (
         <>
-          {pokemonData?.stats?.length > 0 ? (
-            pokemonData.stats.map((stat, index) => (
+          {pokemon?.stats?.length > 0 ? (
+            pokemon.stats.map((stat, index) => (
               <Box
                 key={index}
                 sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}
@@ -174,6 +177,7 @@ const PokeCard = ({ pokemonData }) => {
         boxShadow: 3,
         overflow: "visible",
       }}
+      ref={pokeCardRef}
     >
       {/* Header Section */}
       <Box
@@ -188,11 +192,11 @@ const PokeCard = ({ pokemonData }) => {
         }}
       >
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-          {capitalize(pokemonData?.name || "???")}
+          {capitalize(pokemon?.name || "???")}
         </Typography>
         <Box sx={{ marginTop: 2, display: "flex", gap: 1 }}>
-          {pokemonData?.types?.length > 0 ? (
-            pokemonData?.types.map((type, index) => (
+          {pokemon?.types?.length > 0 ? (
+            pokemon?.types.map((type, index) => (
               <Chip
                 key={index}
                 label={capitalize(type)}
@@ -214,10 +218,10 @@ const PokeCard = ({ pokemonData }) => {
             transform: "translateY(-50%)",
           }}
         >
-          {pokemonData?.image ? (
+          {pokemon?.image ? (
             <img
-              src={pokemonData?.image}
-              alt={pokemonData?.name}
+              src={pokemon?.image}
+              alt={pokemon?.name}
               style={{ width: "10rem", height: "10rem" }}
             />
           ) : null}

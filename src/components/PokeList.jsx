@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import PokeTiles from "./PokeTiles";
 
 const PokeList = () => {
