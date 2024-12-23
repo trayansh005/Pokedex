@@ -2,6 +2,7 @@ import { Box, Chip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useContext } from "react";
 import { PokemonContext } from "../providers/PokemonContext";
+import useTypeColor from "../hooks/useTypeColor";
 
 const PokeTiles = ({ pokemonData }) => {
   const { pokemon, setPokemon } = useContext(PokemonContext);
@@ -10,12 +11,14 @@ const PokeTiles = ({ pokemonData }) => {
     setPokemon(pokemonData.name);
   };
 
+  const typeColor = useTypeColor(pokemonData?.types?.[0] || "#000000");
+
   return (
     <>
       <Grid size={2}>
         <Box
           sx={{
-            backgroundColor: "#1e2223",
+            backgroundColor: typeColor  ,
             px: 3,
             py: 2,
             borderRadius: 4,
@@ -38,7 +41,7 @@ const PokeTiles = ({ pokemonData }) => {
                 <Chip
                   key={index}
                   label={type.charAt(0).toUpperCase() + type.slice(1)}
-                  sx={{ backgroundColor: "#53595B" }}
+                  sx={{ backgroundColor: "hsla(0, 0%, 100%, .2)" }}
                 />
               ))}
             </div>

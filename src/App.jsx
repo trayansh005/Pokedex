@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   styled,
   Switch,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -92,7 +93,7 @@ function App() {
           })),
         };
 
-        setPokemon(pokemonDetails); // Assuming `setPokemon` updates state or DOM
+        setPokemon(pokemonDetails);
       } catch (error) {
         console.error("Error fetching Pokémon data:", error);
       }
@@ -164,6 +165,15 @@ function App() {
           <Grid container spacing={2} sx={{ p: 3, marginTop: "4rem" }}>
             <Grid size={7}>
               <h1>PokeDex</h1>
+              <TextField
+                variant="outlined"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 8,
+                  },
+                }}
+                onChange={(e) => setPokemon(e.target.value)}
+              />
             </Grid>
             <PokeCard pokemonData={pokemon} />
           </Grid>
