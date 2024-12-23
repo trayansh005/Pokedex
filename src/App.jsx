@@ -6,7 +6,6 @@ import {
   FormControlLabel,
   styled,
   Switch,
-  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -17,6 +16,7 @@ import PokeList from "./components/PokeList";
 import PokeCard from "./components/PokeCard";
 import Grid from "@mui/material/Grid2";
 import { PokemonProvider } from "./providers/PokemonContext";
+import SearchBar from "./components/SearchBar";
 
 const MaterialUISwitch = styled(Switch)(() => ({
   width: 62,
@@ -112,14 +112,7 @@ function App() {
           <Grid container spacing={2} sx={{ p: 3, marginTop: "4rem" }}>
             <Grid size={7}>
               <h1>PokeDex</h1>
-              <TextField
-                variant="outlined"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 8,
-                  },
-                }}
-              />
+              <SearchBar />
             </Grid>
             <PokeCard />
           </Grid>
