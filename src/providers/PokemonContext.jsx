@@ -49,13 +49,14 @@ export const PokemonProvider = ({ children }) => {
         };
 
         setPokemon(pokemonDetails);
+        console.log("Rendering pokemon details");
       } catch (error) {
         console.error("Error fetching Pokémon data:", error);
       }
     };
 
     fetchPokemon();
-  }, [pokemon]);
+  }, [selectedPokemon]);
 
   return (
     <PokemonContext.Provider

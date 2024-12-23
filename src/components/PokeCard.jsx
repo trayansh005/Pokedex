@@ -84,21 +84,19 @@ const PokeCard = () => {
 
           <Typography variant="h6">Weaknesses</Typography>
           <Box sx={{ display: "flex", gap: 1, marginTop: 1 }}>
-            {pokemon?.weaknesses?.length > 0 ? (
-              pokemon?.weaknesses.map((weakness, index) => (
-                <Chip
-                  key={index}
-                  label={capitalize(weakness)}
-                  sx={{
-                    backgroundColor: useTypeColor(weakness),
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                />
-              ))
-            ) : (
-              <Typography>No weaknesses available</Typography>
-            )}
+            {pokemon?.weaknesses?.length > 0
+              ? pokemon?.weaknesses.map((weakness, index) => (
+                  <Chip
+                    key={index}
+                    label={capitalize(weakness)}
+                    sx={{
+                      backgroundColor: useTypeColor(weakness),
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  />
+                ))
+              : null}
           </Box>
         </>
       );
@@ -213,8 +211,8 @@ const PokeCard = () => {
         <Box
           sx={{
             position: "absolute",
-            top: "20px",
-            right: "0",
+            top: "15px",
+            right: "50px",
             transform: "translateY(-50%)",
           }}
         >
