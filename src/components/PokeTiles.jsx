@@ -5,13 +5,13 @@ import useTypeColor from "../hooks/useTypeColor";
 import { PokemonContext } from "../providers/PokemonContext";
 
 const PokeTiles = ({ pokemonData }) => {
-  const { setPokemon, pokeCardRef } = useContext(PokemonContext);
+  const { setSelectedPokemon } = useContext(PokemonContext);
 
   const handlePokemonChange = () => {
-    setPokemon(pokemonData.name);
+    setSelectedPokemon(pokemonData.name);
     window.scrollTo({
       top: 0,
-      behavior: "smooth", 
+      behavior: "smooth",
     });
   };
 

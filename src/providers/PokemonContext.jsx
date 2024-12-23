@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useRef } from "react";
 export const PokemonContext = createContext();
 
 export const PokemonProvider = ({ children }) => {
+  const [selectedPokemon, setSelectedPokemon] = useState("pikachu");
   const [pokemon, setPokemon] = useState({});
   const pokeCardRef = useRef(null);
 
@@ -11,7 +12,7 @@ export const PokemonProvider = ({ children }) => {
       try {
         // Fetch the main Pokémon details
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+          `https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`
         );
         const data = await response.json();
 
@@ -20,9 +21,7 @@ export const PokemonProvider = ({ children }) => {
         const speciesData = await speciesResponse.json();
 
         // Extract the description from flavor_text_entries
-        const description = speciesData.flavor_text_entries.find(
-          (entry) => entry.language.name === "en" // Ensure the description is in English
-        )?.flavor_text;
+        const description = speciesData.flavor_text_entries[8].flavor_text;
 
         const weaknessResponse = await fetch(data.types[0].type.url);
         const weaknessData = await weaknessResponse.json();
@@ -59,7 +58,9 @@ export const PokemonProvider = ({ children }) => {
   }, [pokemon]);
 
   return (
-    <PokemonContext.Provider value={{ pokemon, setPokemon, pokeCardRef }}>
+    <PokemonContext.Provider
+      value={{ pokemon, setPokemon, pokeCardRef, setSelectedPokemon }}
+    >
       {children}
     </PokemonContext.Provider>
   );
