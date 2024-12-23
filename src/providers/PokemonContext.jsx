@@ -21,7 +21,7 @@ export const PokemonProvider = ({ children }) => {
         const speciesData = await speciesResponse.json();
 
         // Extract the description from flavor_text_entries
-        const description = speciesData.flavor_text_entries[8].flavor_text;
+        const description = speciesData.flavor_text_entries[6].flavor_text;
 
         const weaknessResponse = await fetch(data.types[0].type.url);
         const weaknessData = await weaknessResponse.json();
