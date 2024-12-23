@@ -64,7 +64,6 @@ const SearchBar = () => {
         sx={{
           "& .MuiOutlinedInput-root": {
             borderRadius: 8,
-            marginBottom: { xs: 12, md: 0 },
           },
         }}
         onChange={(e) => setSearchTerm(e.target.value)}
