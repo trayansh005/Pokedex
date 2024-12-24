@@ -18,7 +18,18 @@ const SearchBar = () => {
           "https://pokeapi.co/api/v2/pokemon?limit=2000"
         );
         const data = await response.json();
-        setPokemonList(data.results);
+
+        const pokemonDetails = await Promise.all(
+          data.results.map(async (pokemon) => {
+            const details = await fetch(pokemon.url).then((res) => res.json());
+            return {
+              name: pokemon.name,
+              image: details.sprites.other.dream_world.front_default,
+            };
+          })
+        );
+
+        setPokemonList(pokemonDetails);
       } catch (error) {
         console.error("Error fetching Pokémon data:", error);
       }
@@ -102,10 +113,18 @@ const SearchBar = () => {
                   padding: "8px 16px",
                   cursor: "pointer",
                   color: "black",
+                  display: "flex",
+                  alignContent: "center",
+                  gap: "25px",
                 }}
                 onClick={() => handleSearch(pokemon.name)}
               >
                 {pokemon.name}
+                <img
+                  src={pokemon.image}
+                  alt={pokemon.name}
+                  style={{ width: "24px", height: "24px", marginLeft: "8px" }}
+                />
               </li>
             ))}
           </ul>
