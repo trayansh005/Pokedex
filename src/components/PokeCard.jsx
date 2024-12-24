@@ -174,6 +174,7 @@ const PokeCard = () => {
         borderRadius: 4,
         boxShadow: 3,
         overflow: "visible",
+        marginTop: { xs: 10, md: 0 },
       }}
       ref={pokeCardRef}
     >
